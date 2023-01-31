@@ -10,6 +10,7 @@ import Settings from './containers/Settings';
 import AuthenticatedRoute from './components/AuthenticatedRoute';
 import UnauthenticatedRoute from './components/UnauthenticatedRoute';
 import ArtistTopTracks from './containers/ArtistTopTracks';
+import SearchResults from './components/SearchResults';
 
 export default function Links() {
   return (
@@ -36,6 +37,14 @@ export default function Links() {
         element={
           <AuthenticatedRoute>
             <Settings />
+          </AuthenticatedRoute>
+        }
+      />
+      <Route
+        path="/artists/:country"
+        element={
+          <AuthenticatedRoute>
+            <SearchResults />
           </AuthenticatedRoute>
         }
       />

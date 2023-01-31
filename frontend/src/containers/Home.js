@@ -70,12 +70,7 @@ export default function Home() {
   }
 
   function renderNotes() {
-    return (
-      <div className="notes">
-        <SearchResults />
-        {/* <ListGroup>{!isLoading && renderNotesList(notes)}</ListGroup> */}
-      </div>
-    );
+    return <></>;
   }
 
   return (
