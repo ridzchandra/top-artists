@@ -6,6 +6,7 @@ import Pagination from '../components/Pagination';
 import Card from 'react-bootstrap/Card';
 import GridSystem from '../components/GridSystem';
 import './SearchResults.css';
+import { capitalize } from '../lib/stringLib';
 
 const SearchResults = () => {
   const [artists, setArtists] = useState([]);
@@ -76,7 +77,7 @@ const SearchResults = () => {
   return (
     <div>
       <h2 className="pb-3 mt-4 mb-3 border-bottom">
-        Top Artists in {params.country}
+        Top Artists in {capitalize(params.country)}
       </h2>
       <div className="artists-container">
         <GridSystem colCount={2} md={6}>
@@ -97,7 +98,9 @@ const SearchResults = () => {
                     alt={artist.name}
                   />
                   <Card.Body>
-                    <Card.Title>{artist.name}</Card.Title>
+                    <Card.Title className="artist-title">
+                      <span>{artist.name}</span>
+                    </Card.Title>
                   </Card.Body>
                 </Card>
               </div>

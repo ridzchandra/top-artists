@@ -5,3 +5,12 @@ img.artist-thumbnail {
 .artists-container {
   margin: auto;
 }
+
+.artist-title {
+  display: flex;
+  justify-content: space-between;
+}
+
+.artist-heart-icon {
+  height: 100%;
+}

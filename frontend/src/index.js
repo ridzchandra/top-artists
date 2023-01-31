@@ -4,6 +4,7 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter as Router } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.bundle.min';
 import { Amplify } from 'aws-amplify';
 import config from './config';
 import { initSentry } from './lib/errorLib';
@@ -28,7 +29,7 @@ Amplify.configure({
   API: {
     endpoints: [
       {
-        name: 'notes',
+        name: 'favourites',
         endpoint: config.apiGateway.URL,
         region: config.apiGateway.REGION,
       },

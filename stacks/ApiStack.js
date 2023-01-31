@@ -1,13 +1,13 @@
-import { Api, use } from "@serverless-stack/resources";
-import { StorageStack } from "./StorageStack";
+import { Api, use } from '@serverless-stack/resources';
+import { StorageStack } from './StorageStack';
 
 export function ApiStack({ stack, app }) {
   const { table } = use(StorageStack);
 
   // Create the API
-  const api = new Api(stack, "Api", {
+  const api = new Api(stack, 'Api', {
     defaults: {
-      authorizer: "iam",
+      authorizer: 'iam',
       function: {
         permissions: [table],
         environment: {
@@ -16,13 +16,13 @@ export function ApiStack({ stack, app }) {
         },
       },
     },
-    routes: {  
-      "GET /notes": "functions/list.main",
-      "POST /notes": "functions/create.main",
-      "GET /notes/{id}": "functions/get.main",
-      "PUT /notes/{id}": "functions/update.main",
-      "DELETE /notes/{id}": "functions/delete.main",
-      "POST /billing": "functions/billing.main",
+    routes: {
+      'GET /favourites': 'functions/list.main',
+      'POST /favourites': 'functions/create.main',
+      'GET /favourites/{id}': 'functions/get.main',
+      'PUT /favourites/{id}': 'functions/update.main',
+      'DELETE /favourites/{id}': 'functions/delete.main',
+      'POST /billing': 'functions/billing.main',
     },
   });
 
@@ -36,5 +36,3 @@ export function ApiStack({ stack, app }) {
     api,
   };
 }
-
-

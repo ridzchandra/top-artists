@@ -11,6 +11,7 @@ import AuthenticatedRoute from './components/AuthenticatedRoute';
 import UnauthenticatedRoute from './components/UnauthenticatedRoute';
 import ArtistTopTracks from './containers/ArtistTopTracks';
 import SearchResults from './containers/SearchResults';
+import { Favourites } from './containers/Favourites';
 
 export default function Links() {
   return (
@@ -41,26 +42,18 @@ export default function Links() {
         }
       />
       <Route
+        path="/favourites"
+        element={
+          <AuthenticatedRoute>
+            <Favourites />
+          </AuthenticatedRoute>
+        }
+      />
+      <Route
         path="/artists/:country"
         element={
           <AuthenticatedRoute>
             <SearchResults />
-          </AuthenticatedRoute>
-        }
-      />
-      <Route
-        path="/notes/new"
-        element={
-          <AuthenticatedRoute>
-            <NewNote />
-          </AuthenticatedRoute>
-        }
-      />
-      <Route
-        path="/notes/:id"
-        element={
-          <AuthenticatedRoute>
-            <Notes />
           </AuthenticatedRoute>
         }
       />

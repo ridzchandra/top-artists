@@ -6,6 +6,8 @@ import config from '../config';
 import { Badge } from 'react-bootstrap';
 import './ArtistTopTracks.css';
 import Pagination from '../components/Pagination';
+import { HeartIcon as SolidHeartIcon } from '@heroicons/react/24/solid';
+import { HeartIcon as OutlineHeartIcon } from '@heroicons/react/24/outline';
 
 const ArtistTopTracks = () => {
   const [tracks, setTracks] = useState([]);
@@ -43,7 +45,10 @@ const ArtistTopTracks = () => {
             className="track-list-item"
           >
             {track.name}
-            <Badge bg="primary">listeners: {track.listeners}</Badge>
+            <div>
+              <Badge bg="primary">listeners: {track.listeners}</Badge>
+              <SolidHeartIcon width={24} height={24} color="red" />
+            </div>
           </ListGroup.Item>
         ))}
       </ListGroup>
