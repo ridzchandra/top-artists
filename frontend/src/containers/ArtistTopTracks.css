@@ -1,0 +1,4 @@
+.track-list-item {
+  display: flex !important;
+  justify-content: space-between;
+}
