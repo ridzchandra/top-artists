@@ -6,9 +6,9 @@ import { API } from 'aws-amplify';
 import { BsPencilSquare } from 'react-icons/bs';
 import { LinkContainer } from 'react-router-bootstrap';
 import './Home.css';
+import SearchResults from '../components/SearchResults';
 
 export default function Home() {
-  const [notes, setNotes] = useState([]);
   const { isAuthenticated } = useAppContext();
   const [isLoading, setIsLoading] = useState(true);
 
@@ -20,7 +20,6 @@ export default function Home() {
 
       try {
         const notes = await loadNotes();
-        setNotes(notes);
       } catch (e) {
         onError(e);
       }
@@ -32,7 +31,7 @@ export default function Home() {
   }, [isAuthenticated]);
 
   function loadNotes() {
-    return API.get('notes', '/notes');
+    return API.get('notes', '/notes', {});
   }
 
   function renderNotesList(notes) {
@@ -64,8 +63,8 @@ export default function Home() {
   function renderLander() {
     return (
       <div className="lander">
-        <h1>Scratch</h1>
-        <p className="text-muted">A simple note taking app</p>
+        <h1>Top Artists</h1>
+        <p className="text-muted">A simple app to browse through artists</p>
       </div>
     );
   }
@@ -73,8 +72,8 @@ export default function Home() {
   function renderNotes() {
     return (
       <div className="notes">
-        <h2 className="pb-3 mt-4 mb-3 border-bottom">Your Notes</h2>
-        <ListGroup>{!isLoading && renderNotesList(notes)}</ListGroup>
+        <SearchResults />
+        {/* <ListGroup>{!isLoading && renderNotesList(notes)}</ListGroup> */}
       </div>
     );
   }

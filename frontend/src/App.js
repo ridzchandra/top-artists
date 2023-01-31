@@ -9,6 +9,7 @@ import { Auth } from 'aws-amplify';
 import { useNavigate } from 'react-router-dom';
 import { onError } from './lib/errorLib';
 import ErrorBoundary from './components/ErrorBoundary';
+import logo from './assets/logo.png';
 
 function App() {
   const [isAuthenticating, setIsAuthenticating] = useState(true);
@@ -44,7 +45,7 @@ function App() {
         <Navbar collapseOnSelect bg="light" expand="md" className="mb-3 px-3">
           <LinkContainer to="/">
             <Navbar.Brand className="font-weight-bold text-muted">
-              Scratch
+              <img src={logo} alt="Top Artists"></img>
             </Navbar.Brand>
           </LinkContainer>
           <Navbar.Toggle />
