@@ -3,10 +3,12 @@ import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import config from '../config';
 import Pagination from './Pagination';
+import './SearchResults.css';
 
 const SearchResults = () => {
   const [artists, setArtists] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
+  const [currentImageUrls, setCurrentImageUrls] = useState([]);
   const [totalPages, setTotalPages] = useState(1);
   const navigate = useNavigate();
   const params = useParams();
@@ -22,6 +24,44 @@ const SearchResults = () => {
 
     fetchData();
   }, [params.country]);
+
+  useEffect(() => {
+    const getArtistImagesByMBID = async (artists, currentPage) => {
+      const musicBrainzUrls = artists
+        .slice((currentPage - 1) * 5, currentPage * 5)
+        .map((artist) => {
+          const { mbid } = artist;
+          return mbid
+            ? 'https://musicbrainz.org/ws/2/artist/' +
+                mbid +
+                '?inc=url-rels&fmt=json'
+            : '';
+        });
+      const responses = await Promise.all(
+        musicBrainzUrls.map((url) => axios.get(url))
+      );
+      // The following lines of code are just destructuring the musicbrainz response for img urls
+      const imageRelations = responses.map((res) =>
+        res.data.relations.find((rel) => rel.type === 'image')
+      );
+      const imageUrls = imageRelations.map((ir) => {
+        let imageUrl =
+          'https://lastfm.freetls.fastly.net/i/u/174s/2a96cbd8b46e442fc41c2b86b821562f.png';
+        if (ir) {
+          imageUrl = ir.url.resource;
+          if (imageUrl.startsWith('https://commons.wikimedia.org/wiki/File:')) {
+            const filename = imageUrl.substring(imageUrl.lastIndexOf('/') + 1);
+            imageUrl =
+              'https://commons.wikimedia.org/wiki/Special:Redirect/file/' +
+              filename;
+          }
+        }
+        return imageUrl;
+      });
+      setCurrentImageUrls(imageUrls);
+    };
+    getArtistImagesByMBID(artists, currentPage);
+  }, [artists, currentPage]);
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
@@ -45,13 +85,14 @@ const SearchResults = () => {
               onClick={() => handleArtistClick(artist.name)}
             >
               <h2>{artist.name}</h2>
-              {/* <img
-              src={currentImageUrls[index]}
-              alt={artist.name}
-              height="32px"
-              width="32px"
-            /> */}
-              <img src={artist.image[2]['#text']} alt={artist.name} />
+              <img
+                className="artist-thumbnail"
+                src={currentImageUrls[index]}
+                alt={artist.name}
+                height="174px"
+                width="174px"
+              />
+              {/* <img src={artist.image[2]['#text']} alt={artist.name} /> */}
             </div>
           ))}
         <Pagination

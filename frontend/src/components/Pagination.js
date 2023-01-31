@@ -1,13 +1,18 @@
 import React from 'react';
+import Button from 'react-bootstrap/Button';
 
 const Pagination = ({ currentPage, totalPages, onPageChange }) => {
   return (
     <div>
       {currentPage > 1 && (
-        <button onClick={() => onPageChange(currentPage - 1)}>Previous</button>
+        <Button variant="primary" onClick={() => onPageChange(currentPage - 1)}>
+          Previous
+        </Button>
       )}
       {currentPage < totalPages && (
-        <button onClick={() => onPageChange(currentPage + 1)}>Next</button>
+        <Button variant="primary" onClick={() => onPageChange(currentPage + 1)}>
+          Next
+        </Button>
       )}
     </div>
   );
