@@ -6,7 +6,6 @@ import { API } from 'aws-amplify';
 import { BsPencilSquare } from 'react-icons/bs';
 import { LinkContainer } from 'react-router-bootstrap';
 import './Home.css';
-import SearchResults from '../components/SearchResults';
 
 export default function Home() {
   const { isAuthenticated } = useAppContext();

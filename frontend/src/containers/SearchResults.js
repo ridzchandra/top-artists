@@ -2,7 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import config from '../config';
-import Pagination from './Pagination';
+import Pagination from '../components/Pagination';
+import Card from 'react-bootstrap/Card';
+import GridSystem from '../components/GridSystem';
 import './SearchResults.css';
 
 const SearchResults = () => {
@@ -72,29 +74,35 @@ const SearchResults = () => {
   };
 
   return (
-    <div className="notes">
+    <div>
       <h2 className="pb-3 mt-4 mb-3 border-bottom">
         Top Artists in {params.country}
       </h2>
-      <div>
-        {artists
-          .slice((currentPage - 1) * 5, currentPage * 5)
-          .map((artist, index) => (
-            <div
-              key={artist.name}
-              onClick={() => handleArtistClick(artist.name)}
-            >
-              <h2>{artist.name}</h2>
-              <img
-                className="artist-thumbnail"
-                src={currentImageUrls[index]}
-                alt={artist.name}
-                height="174px"
-                width="174px"
-              />
-              {/* <img src={artist.image[2]['#text']} alt={artist.name} /> */}
-            </div>
-          ))}
+      <div className="artists-container">
+        <GridSystem colCount={2} md={6}>
+          {artists
+            .slice((currentPage - 1) * 5, currentPage * 5)
+            .map((artist, index) => (
+              <div
+                key={artist.name}
+                onClick={() => handleArtistClick(artist.name)}
+              >
+                <Card style={{ width: '174px', marginBottom: '30px' }}>
+                  <Card.Img
+                    variant="top"
+                    src={currentImageUrls[index]}
+                    height="174px"
+                    width="174px"
+                    className="artist-thumbnail"
+                    alt={artist.name}
+                  />
+                  <Card.Body>
+                    <Card.Title>{artist.name}</Card.Title>
+                  </Card.Body>
+                </Card>
+              </div>
+            ))}
+        </GridSystem>
         <Pagination
           currentPage={currentPage}
           totalPages={totalPages}

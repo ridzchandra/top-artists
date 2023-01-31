@@ -10,7 +10,7 @@ import Settings from './containers/Settings';
 import AuthenticatedRoute from './components/AuthenticatedRoute';
 import UnauthenticatedRoute from './components/UnauthenticatedRoute';
 import ArtistTopTracks from './containers/ArtistTopTracks';
-import SearchResults from './components/SearchResults';
+import SearchResults from './containers/SearchResults';
 
 export default function Links() {
   return (

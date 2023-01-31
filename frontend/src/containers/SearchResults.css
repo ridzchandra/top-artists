@@ -1,3 +1,7 @@
 img.artist-thumbnail {
   object-fit: cover;
 }
+
+.artists-container {
+  margin: auto;
+}
