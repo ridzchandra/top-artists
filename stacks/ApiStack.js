@@ -19,8 +19,6 @@ export function ApiStack({ stack, app }) {
     routes: {
       'GET /favourites': 'functions/list.main',
       'POST /favourites': 'functions/create.main',
-      'GET /favourite': 'functions/get.main',
-      // 'PUT /favourites/{id}': 'functions/update.main',
       'DELETE /favourites/{id}': 'functions/delete.main',
       'POST /billing': 'functions/billing.main',
     },

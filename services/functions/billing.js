@@ -19,5 +19,5 @@ export const main = handler(async (event) => {
     currency: 'aud',
   });
 
-  return { status: true };
+  return { status: true, amount };
 });

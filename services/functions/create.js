@@ -40,7 +40,6 @@ export const main = handler(async (event) => {
       (fav) => fav.artist === data.artist && fav.trackTitle === data.trackTitle
     );
   }
-  console.log(result.Items);
   if (!itemAlreadyExists) {
     // only add if it doesn't exist - avoid duplicates
     await dynamoDb.put(putParams);

@@ -16,7 +16,6 @@ export default function NewFavourite() {
   const [isLoading, setIsLoading] = useState(false);
 
   function validateForm() {
-    debugger;
     return artist.length > 0 && trackTitle.length > 0 && file.current;
   }
 

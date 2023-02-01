@@ -66,6 +66,14 @@ const SearchResults = () => {
     getArtistImagesByMBID(artists, currentPage);
   }, [artists, currentPage]);
 
+  if (artists.length === 0) {
+    return (
+      <div className="ErrorBoundary text-center">
+        <h3>No results! Please try another country.</h3>
+      </div>
+    );
+  }
+
   const handlePageChange = (page) => {
     setCurrentPage(page);
   };
