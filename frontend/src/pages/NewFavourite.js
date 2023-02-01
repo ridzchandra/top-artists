@@ -5,8 +5,8 @@ import LoaderButton from '../components/LoaderButton';
 import { onError } from '../lib/errorLib';
 import config from '../config';
 import { s3Upload } from '../lib/awsLib';
-import './NewFavourite.css';
 import { createFavourite } from '../lib/apiLib';
+import './styles/NewFavourite.css';
 
 export default function NewFavourite() {
   const file = useRef(null);

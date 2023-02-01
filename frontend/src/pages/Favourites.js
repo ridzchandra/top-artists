@@ -4,10 +4,9 @@ import { Alert, Badge, Button, ListGroup } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 import { onError } from '../lib/errorLib';
 import { ArrowUpTrayIcon, TrashIcon } from '@heroicons/react/24/outline';
-import './Favourites.css';
 import Pagination from '../components/Pagination';
-import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import './styles/Favourites.css';
 
 export const Favourites = () => {
   const [favourites, setFavourites] = useState([]);
@@ -18,7 +17,6 @@ export const Favourites = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [deletedTrack, setDeletedTrack] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-  const navigate = useNavigate();
 
   useEffect(() => {
     async function onLoad() {
@@ -29,6 +27,7 @@ export const Favourites = () => {
       try {
         const favourites = await loadFavourites();
         setFavourites(favourites);
+        setTotalPages(Math.ceil(favourites.length / 10));
       } catch (e) {
         onError(e);
       }

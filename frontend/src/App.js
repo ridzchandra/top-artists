@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import './App.css';
 import Routes from './Routes';
 import { LinkContainer } from 'react-router-bootstrap';
-import { AppContext } from './lib/contextLib';
 import { Auth } from 'aws-amplify';
 import { useNavigate } from 'react-router-dom';
 import { onError } from './lib/errorLib';
@@ -12,7 +11,6 @@ import ErrorBoundary from './components/ErrorBoundary';
 import logo from './assets/logo.png';
 import { useSelector, useDispatch } from 'react-redux';
 import {
-  loadSession,
   setIsAuthenticated,
   setIsAuthenticating,
 } from './redux-toolkit/reducers/authenticationSlice';
@@ -42,6 +40,7 @@ function App() {
 
   useEffect(() => {
     onLoad();
+    // eslint-disable-next-line
   }, []);
 
   async function handleLogout() {

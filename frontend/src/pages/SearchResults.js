@@ -5,8 +5,8 @@ import config from '../config';
 import Pagination from '../components/Pagination';
 import Card from 'react-bootstrap/Card';
 import GridSystem from '../components/GridSystem';
-import './SearchResults.css';
 import { capitalize } from '../lib/stringLib';
+import './styles/SearchResults.css';
 
 const SearchResults = () => {
   const [artists, setArtists] = useState([]);

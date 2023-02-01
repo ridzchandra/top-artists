@@ -6,7 +6,7 @@ import { useFormFields } from '../lib/hooksLib';
 import { onError } from '../lib/errorLib';
 import { setIsAuthenticated } from '../redux-toolkit/reducers/authenticationSlice';
 import { useDispatch } from 'react-redux';
-import './Login.css';
+import './styles/Login.css';
 
 export default function Login() {
   const dispatch = useDispatch();

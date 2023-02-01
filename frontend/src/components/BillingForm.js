@@ -3,7 +3,7 @@ import Form from 'react-bootstrap/Form';
 import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
 import LoaderButton from './LoaderButton';
 import { useFormFields } from '../lib/hooksLib';
-import './BillingForm.css';
+import './styles/BillingForm.css';
 
 export default function BillingForm({ isLoading, onSubmit }) {
   const stripe = useStripe();

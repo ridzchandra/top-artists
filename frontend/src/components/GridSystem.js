@@ -1,6 +1,6 @@
 import React from 'react';
 import { Row, Col, Container } from 'react-bootstrap';
-
+import './styles/GridSystem.css';
 /*  This grid system takes an array of JSX items as children
     and calculates the number of rows needed based on chilren count and col count.
 */

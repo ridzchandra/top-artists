@@ -1,16 +1,16 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
-import Home from './containers/Home';
-import NotFound from './containers/NotFound';
-import Login from './containers/Login';
-import Signup from './containers/Signup';
-import Settings from './containers/Settings';
+import Home from './pages/Home';
+import NotFound from './pages/NotFound';
+import Login from './pages/Login';
+import Signup from './pages/Signup';
+import Settings from './pages/Settings';
 import AuthenticatedRoute from './components/AuthenticatedRoute';
 import UnauthenticatedRoute from './components/UnauthenticatedRoute';
-import ArtistTopTracks from './containers/ArtistTopTracks';
-import SearchResults from './containers/SearchResults';
-import { Favourites } from './containers/Favourites';
-import NewFavourite from './containers/NewFavourite';
+import ArtistTopTracks from './pages/ArtistTopTracks';
+import SearchResults from './pages/SearchResults';
+import { Favourites } from './pages/Favourites';
+import NewFavourite from './pages/NewFavourite';
 
 export default function Links() {
   return (

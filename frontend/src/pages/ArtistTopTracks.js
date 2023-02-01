@@ -4,10 +4,10 @@ import axios from 'axios';
 import ListGroup from 'react-bootstrap/ListGroup';
 import config from '../config';
 import { Alert, Badge, Button } from 'react-bootstrap';
-import './ArtistTopTracks.css';
 import Pagination from '../components/Pagination';
 import { PlusIcon } from '@heroicons/react/24/outline';
 import { createFavourite } from '../lib/apiLib';
+import './styles/ArtistTopTracks.css';
 
 const ArtistTopTracks = () => {
   const [tracks, setTracks] = useState([]);

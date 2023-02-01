@@ -1,7 +1,7 @@
 import React from 'react';
-import './Home.css';
 import { SearchBar } from '../components/SearchBar';
 import { useSelector } from 'react-redux';
+import './styles/Home.css';
 
 export default function Home() {
   const isAuthenticated = useSelector(

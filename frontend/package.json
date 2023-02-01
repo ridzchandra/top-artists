@@ -33,7 +33,9 @@
   "scripts": {
     "start": "sst-env -- react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test:ui": "vitest --ui",
+    "test:watch": "vitest watch",
+    "test:coverage": "vitest run --coverage",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {

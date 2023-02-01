@@ -1,6 +1,4 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { Auth } from 'aws-amplify';
-import { onError } from '../../lib/errorLib';
+import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   isAuthenticated: false,

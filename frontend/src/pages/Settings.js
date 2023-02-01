@@ -6,8 +6,8 @@ import config from '../config';
 import { loadStripe } from '@stripe/stripe-js';
 import { Elements } from '@stripe/react-stripe-js';
 import BillingForm from '../components/BillingForm';
-import './Settings.css';
 import { Alert } from 'react-bootstrap';
+import './styles/Settings.css';
 
 export default function Settings() {
   const nav = useNavigate();
@@ -23,6 +23,7 @@ export default function Settings() {
         nav('/');
       }, 3000);
     }
+    // eslint-disable-next-line
   }, [amountChanrged]);
 
   function billUser(details) {

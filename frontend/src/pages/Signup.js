@@ -7,7 +7,7 @@ import { onError } from '../lib/errorLib';
 import { Auth } from 'aws-amplify';
 import { setIsAuthenticated } from '../redux-toolkit/reducers/authenticationSlice';
 import { useDispatch } from 'react-redux';
-import './Signup.css';
+import './styles/Signup.css';
 
 export default function Signup() {
   const dispatch = useDispatch();
