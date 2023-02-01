@@ -1,16 +1,16 @@
-import React, { useState } from "react";
-import Form from "react-bootstrap/Form";
-import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
-import LoaderButton from "./LoaderButton";
-import { useFormFields } from "../lib/hooksLib";
-import "./BillingForm.css";
+import React, { useState } from 'react';
+import Form from 'react-bootstrap/Form';
+import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
+import LoaderButton from './LoaderButton';
+import { useFormFields } from '../lib/hooksLib';
+import './styles/BillingForm.css';
 
 export default function BillingForm({ isLoading, onSubmit }) {
   const stripe = useStripe();
   const elements = useElements();
   const [fields, handleFieldChange] = useFormFields({
-    name: "",
-    storage: "",
+    name: '',
+    storage: '',
   });
   const [isProcessing, setIsProcessing] = useState(false);
   const [isCardComplete, setIsCardComplete] = useState(false);
@@ -21,8 +21,8 @@ export default function BillingForm({ isLoading, onSubmit }) {
     return (
       stripe &&
       elements &&
-      fields.name !== "" &&
-      fields.storage !== "" &&
+      fields.name !== '' &&
+      fields.storage !== '' &&
       isCardComplete
     );
   }
@@ -50,13 +50,13 @@ export default function BillingForm({ isLoading, onSubmit }) {
   return (
     <Form className="BillingForm" onSubmit={handleSubmitClick}>
       <Form.Group size="lg" controlId="storage">
-        <Form.Label>Storage</Form.Label>
+        <Form.Label>Max favourites</Form.Label>
         <Form.Control
           min="0"
           type="number"
           value={fields.storage}
           onChange={handleFieldChange}
-          placeholder="Number of notes to store"
+          placeholder="Number of songs to save to favourites"
         />
       </Form.Group>
       <hr />
@@ -69,15 +69,15 @@ export default function BillingForm({ isLoading, onSubmit }) {
           placeholder="Name on the card"
         />
       </Form.Group>
-      <Form.Label>Credit Card Info</Form.Label>
+      <Form.Label>Credit card info</Form.Label>
       <CardElement
         className="card-field"
         onChange={(e) => setIsCardComplete(e.complete)}
         options={{
           style: {
             base: {
-              fontSize: "16px",
-              color: "#495057",
+              fontSize: '16px',
+              color: '#495057',
               fontFamily: "'Open Sans', sans-serif",
             },
           },

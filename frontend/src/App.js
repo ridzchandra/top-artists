@@ -1,40 +1,52 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import './App.css';
 import Routes from './Routes';
 import { LinkContainer } from 'react-router-bootstrap';
-import { AppContext } from './lib/contextLib';
 import { Auth } from 'aws-amplify';
 import { useNavigate } from 'react-router-dom';
 import { onError } from './lib/errorLib';
 import ErrorBoundary from './components/ErrorBoundary';
+import logo from './assets/logo.png';
+import { useSelector, useDispatch } from 'react-redux';
+import {
+  setIsAuthenticated,
+  setIsAuthenticating,
+} from './redux-toolkit/reducers/authenticationSlice';
 
 function App() {
-  const [isAuthenticating, setIsAuthenticating] = useState(true);
-  const [isAuthenticated, userHasAuthenticated] = useState(false);
   const nav = useNavigate();
-  useEffect(() => {
-    onLoad();
-  }, []);
+  const dispatch = useDispatch();
+  const isAuthenticated = useSelector(
+    (state) => state.authentication.isAuthenticated
+  );
+  const isAuthenticating = useSelector(
+    (state) => state.authentication.isAuthenticating
+  );
 
-  async function onLoad() {
+  const onLoad = async () => {
     try {
       await Auth.currentSession();
-      userHasAuthenticated(true);
+      dispatch(setIsAuthenticated(true));
     } catch (e) {
       if (e !== 'No current user') {
         onError(e);
       }
     }
 
-    setIsAuthenticating(false);
-  }
+    dispatch(setIsAuthenticating(false));
+  };
+
+  useEffect(() => {
+    onLoad();
+    // eslint-disable-next-line
+  }, []);
 
   async function handleLogout() {
     await Auth.signOut();
 
-    userHasAuthenticated(false);
+    dispatch(setIsAuthenticated(false));
     nav('/login');
   }
 
@@ -44,7 +56,7 @@ function App() {
         <Navbar collapseOnSelect bg="light" expand="md" className="mb-3 px-3">
           <LinkContainer to="/">
             <Navbar.Brand className="font-weight-bold text-muted">
-              Scratch
+              <img src={logo} alt="Top Artists"></img>
             </Navbar.Brand>
           </LinkContainer>
           <Navbar.Toggle />
@@ -52,6 +64,9 @@ function App() {
             <Nav activeKey={window.location.pathname}>
               {isAuthenticated ? (
                 <>
+                  <LinkContainer to="/favourites">
+                    <Nav.Link>Favourites</Nav.Link>
+                  </LinkContainer>
                   <LinkContainer to="/settings">
                     <Nav.Link>Settings</Nav.Link>
                   </LinkContainer>
@@ -71,11 +86,7 @@ function App() {
           </Navbar.Collapse>
         </Navbar>
         <ErrorBoundary>
-          <AppContext.Provider
-            value={{ isAuthenticated, userHasAuthenticated }}
-          >
-            <Routes />
-          </AppContext.Provider>
+          <Routes />
         </ErrorBoundary>
       </div>
     )

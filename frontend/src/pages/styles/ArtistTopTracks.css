@@ -1,0 +1,10 @@
+.track-list-item {
+  display: flex !important;
+  justify-content: space-between;
+}
+
+.secondary-list-item {
+  display: flex;
+  width: 50%;
+  justify-content: space-between;
+}

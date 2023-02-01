@@ -1,13 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
 import reportWebVitals from './reportWebVitals';
+import App from './App';
 import { BrowserRouter as Router } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.bundle.min';
 import { Amplify } from 'aws-amplify';
 import config from './config';
+import { Provider } from 'react-redux';
 import { initSentry } from './lib/errorLib';
+import store from './redux-toolkit/store';
 
 initSentry();
 
@@ -29,7 +31,7 @@ Amplify.configure({
   API: {
     endpoints: [
       {
-        name: 'notes',
+        name: 'favourites',
         endpoint: config.apiGateway.URL,
         region: config.apiGateway.REGION,
       },
@@ -40,7 +42,10 @@ Amplify.configure({
 root.render(
   <React.StrictMode>
     <Router>
-      <App />
+      {/* connecting store to app */}
+      <Provider store={store}>
+        <App />
+      </Provider>
     </Router>
   </React.StrictMode>
 );

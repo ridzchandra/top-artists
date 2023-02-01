@@ -1,29 +1,31 @@
-import { expect, test } from "vitest";
-import { calculateCost } from "../cost";
+import { expect, describe, it } from 'vitest';
+import { calculateCost } from '../cost';
 
-test("Lowest tier", () => {
-  const storage = 10;
+describe('Cost calculation for', () => {
+  it('Lowest tier (<= 10 MB) - Cost is $4 per MB', () => {
+    const storage = 10;
 
-  const cost = 4000;
-  const expectedCost = calculateCost(storage);
+    const cost = 40;
+    const expectedCost = calculateCost(storage);
 
-  expect(cost).toEqual(expectedCost);
-});
+    expect(cost).toEqual(expectedCost);
+  });
 
-test("Middle tier", () => {
-  const storage = 100;
+  it('Middle tier (> 10 MB && <= 100 MB) - Cost is $2 per MB', () => {
+    const storage = 100;
 
-  const cost = 20000;
-  const expectedCost = calculateCost(storage);
+    const cost = 200;
+    const expectedCost = calculateCost(storage);
 
-  expect(cost).toEqual(expectedCost);
-});
+    expect(cost).toEqual(expectedCost);
+  });
 
-test("Highest tier", () => {
-  const storage = 101;
+  it('Highest tier (greater than 100 MB) - Cost is $1 per MB', () => {
+    const storage = 101;
 
-  const cost = 10100;
-  const expectedCost = calculateCost(storage);
+    const cost = 101;
+    const expectedCost = calculateCost(storage);
 
-  expect(cost).toEqual(expectedCost);
+    expect(cost).toEqual(expectedCost);
+  });
 });
