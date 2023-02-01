@@ -2,16 +2,18 @@ import { API } from 'aws-amplify';
 import React, { useEffect, useState } from 'react';
 import { Alert, Badge, Button, ListGroup } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
-import { useAppContext } from '../lib/contextLib';
 import { onError } from '../lib/errorLib';
 import { ArrowUpTrayIcon, TrashIcon } from '@heroicons/react/24/outline';
 import './Favourites.css';
 import Pagination from '../components/Pagination';
 import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 export const Favourites = () => {
   const [favourites, setFavourites] = useState([]);
-  const { isAuthenticated } = useAppContext();
+  const isAuthenticated = useSelector(
+    (state) => state.authentication.isAuthenticated
+  );
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [deletedTrack, setDeletedTrack] = useState(null);

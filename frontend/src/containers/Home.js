@@ -1,15 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import ListGroup from 'react-bootstrap/ListGroup';
-import { useAppContext } from '../lib/contextLib';
-import { onError } from '../lib/errorLib';
-import { API } from 'aws-amplify';
-import { BsPencilSquare } from 'react-icons/bs';
-import { LinkContainer } from 'react-router-bootstrap';
+import React from 'react';
 import './Home.css';
 import { SearchBar } from '../components/SearchBar';
+import { useSelector } from 'react-redux';
 
 export default function Home() {
-  const { isAuthenticated } = useAppContext();
+  const isAuthenticated = useSelector(
+    (state) => state.authentication.isAuthenticated
+  );
 
   function renderLander() {
     return (

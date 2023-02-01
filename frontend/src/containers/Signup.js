@@ -2,13 +2,15 @@ import React, { useState } from 'react';
 import Form from 'react-bootstrap/Form';
 import { useNavigate } from 'react-router-dom';
 import LoaderButton from '../components/LoaderButton';
-import { useAppContext } from '../lib/contextLib';
 import { useFormFields } from '../lib/hooksLib';
 import { onError } from '../lib/errorLib';
-import './Signup.css';
 import { Auth } from 'aws-amplify';
+import { setIsAuthenticated } from '../redux-toolkit/reducers/authenticationSlice';
+import { useDispatch } from 'react-redux';
+import './Signup.css';
 
 export default function Signup() {
+  const dispatch = useDispatch();
   const [fields, handleFieldChange] = useFormFields({
     email: '',
     password: '',
@@ -17,7 +19,6 @@ export default function Signup() {
   });
   const nav = useNavigate();
   const [newUser, setNewUser] = useState(null);
-  const { setIsAuthenticated } = useAppContext();
   const [isLoading, setIsLoading] = useState(false);
 
   function validateForm() {
@@ -54,7 +55,7 @@ export default function Signup() {
     try {
       await Auth.confirmSignUp(fields.email, fields.confirmationCode);
       await Auth.signIn(fields.email, fields.password);
-      setIsAuthenticated(true);
+      dispatch(setIsAuthenticated(true));
       nav('/');
     } catch (e) {
       onError(e);

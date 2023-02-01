@@ -7,7 +7,9 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
 import { Amplify } from 'aws-amplify';
 import config from './config';
+import { Provider } from 'react-redux';
 import { initSentry } from './lib/errorLib';
+import store from './redux-toolkit/store';
 
 initSentry();
 
@@ -40,7 +42,10 @@ Amplify.configure({
 root.render(
   <React.StrictMode>
     <Router>
-      <App />
+      {/* connecting store to app */}
+      <Provider store={store}>
+        <App />
+      </Provider>
     </Router>
   </React.StrictMode>
 );

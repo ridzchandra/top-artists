@@ -1,6 +1,6 @@
 import React, { cloneElement } from 'react';
+import { useSelector } from 'react-redux';
 import { Navigate } from 'react-router-dom';
-import { useAppContext } from '../lib/contextLib';
 
 // Reads the redirect URL from the querystring.
 function querystring(name, url = window.location.href) {
@@ -16,7 +16,9 @@ function querystring(name, url = window.location.href) {
 }
 
 export default function UnauthenticatedRoute(props) {
-  const { isAuthenticated } = useAppContext();
+  const isAuthenticated = useSelector(
+    (state) => state.authentication.isAuthenticated
+  );
   const { children } = props;
   const redirect = querystring('redirect');
 

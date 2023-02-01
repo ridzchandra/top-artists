@@ -10,32 +10,30 @@ import { useNavigate } from 'react-router-dom';
 import { onError } from './lib/errorLib';
 import ErrorBoundary from './components/ErrorBoundary';
 import logo from './assets/logo.png';
+import { useSelector, useDispatch } from 'react-redux';
+import {
+  loadSession,
+  setIsAuthenticated,
+} from './redux-toolkit/reducers/authenticationSlice';
 
 function App() {
-  const [isAuthenticating, setIsAuthenticating] = useState(true);
-  const [isAuthenticated, userHasAuthenticated] = useState(false);
   const nav = useNavigate();
+  const dispatch = useDispatch();
+  const isAuthenticated = useSelector(
+    (state) => state.authentication.isAuthenticated
+  );
+  const isAuthenticating = useSelector(
+    (state) => state.authentication.isAuthenticating
+  );
+
   useEffect(() => {
-    onLoad();
+    dispatch(loadSession);
   }, []);
-
-  async function onLoad() {
-    try {
-      await Auth.currentSession();
-      userHasAuthenticated(true);
-    } catch (e) {
-      if (e !== 'No current user') {
-        onError(e);
-      }
-    }
-
-    setIsAuthenticating(false);
-  }
 
   async function handleLogout() {
     await Auth.signOut();
 
-    userHasAuthenticated(false);
+    dispatch(setIsAuthenticated(false));
     nav('/login');
   }
 
@@ -75,11 +73,7 @@ function App() {
           </Navbar.Collapse>
         </Navbar>
         <ErrorBoundary>
-          <AppContext.Provider
-            value={{ isAuthenticated, userHasAuthenticated }}
-          >
-            <Routes />
-          </AppContext.Provider>
+          <Routes />
         </ErrorBoundary>
       </div>
     )
