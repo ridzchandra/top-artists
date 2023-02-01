@@ -4,7 +4,7 @@ import Home from './containers/Home';
 import NotFound from './containers/NotFound';
 import Login from './containers/Login';
 import Signup from './containers/Signup';
-import NewNote from './containers/NewNote';
+import NewNote from './containers/NewFavourite';
 import Notes from './containers/Notes';
 import Settings from './containers/Settings';
 import AuthenticatedRoute from './components/AuthenticatedRoute';
@@ -12,6 +12,7 @@ import UnauthenticatedRoute from './components/UnauthenticatedRoute';
 import ArtistTopTracks from './containers/ArtistTopTracks';
 import SearchResults from './containers/SearchResults';
 import { Favourites } from './containers/Favourites';
+import NewFavourite from './containers/NewFavourite';
 
 export default function Links() {
   return (
@@ -46,6 +47,14 @@ export default function Links() {
         element={
           <AuthenticatedRoute>
             <Favourites />
+          </AuthenticatedRoute>
+        }
+      />
+      <Route
+        path="/favourites/new"
+        element={
+          <AuthenticatedRoute>
+            <NewFavourite />
           </AuthenticatedRoute>
         }
       />

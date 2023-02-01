@@ -3,16 +3,17 @@ import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import ListGroup from 'react-bootstrap/ListGroup';
 import config from '../config';
-import { Badge } from 'react-bootstrap';
+import { Alert, Badge, Button } from 'react-bootstrap';
 import './ArtistTopTracks.css';
 import Pagination from '../components/Pagination';
-import { HeartIcon as SolidHeartIcon } from '@heroicons/react/24/solid';
-import { HeartIcon as OutlineHeartIcon } from '@heroicons/react/24/outline';
+import { PlusIcon } from '@heroicons/react/24/outline';
+import { createFavourite } from '../lib/apiLib';
 
 const ArtistTopTracks = () => {
   const [tracks, setTracks] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [addedTrack, setAddedTrack] = useState(null);
   const params = useParams();
 
   useEffect(() => {
@@ -27,9 +28,27 @@ const ArtistTopTracks = () => {
     fetchData();
   }, [params.name]);
 
+  useEffect(() => {
+    if (addedTrack) {
+      createFavourite(addedTrack);
+      setTimeout(() => setAddedTrack(null), 3000);
+    }
+  }, [addedTrack]);
+
   const handlePageChange = (page) => {
     setCurrentPage(page);
   };
+
+  const handleAdd = (e) => {
+    e.preventDefault();
+    const addBtnEl = e.currentTarget;
+    const trackListItem = addBtnEl.parentElement.parentElement;
+    const artist = params.name;
+    const trackTitle = trackListItem.firstChild.data;
+    const attachment = trackListItem.href;
+    setAddedTrack({ artist, trackTitle, attachment });
+  };
+
   return (
     <div>
       <h2 className="pb-3 mt-4 mb-3 border-bottom">
@@ -45,9 +64,13 @@ const ArtistTopTracks = () => {
             className="track-list-item"
           >
             {track.name}
-            <div>
-              <Badge bg="primary">listeners: {track.listeners}</Badge>
-              <SolidHeartIcon width={24} height={24} color="red" />
+            <div className="secondary-list-item">
+              <Badge bg="secondary" className="mr-3">
+                listeners: {track.listeners}
+              </Badge>
+              <Button variant="light" size="sm" onClick={handleAdd}>
+                <PlusIcon width={24} height={24} color="blue" />
+              </Button>
             </div>
           </ListGroup.Item>
         ))}
@@ -57,6 +80,12 @@ const ArtistTopTracks = () => {
         totalPages={totalPages}
         onPageChange={handlePageChange}
       />
+      {addedTrack && (
+        <Alert
+          className="mt-3"
+          variant="success"
+        >{`${addedTrack.trackTitle} has been added to your favourites!`}</Alert>
+      )}
     </div>
   );
 };

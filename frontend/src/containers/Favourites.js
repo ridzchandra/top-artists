@@ -1,16 +1,22 @@
 import { API } from 'aws-amplify';
 import React, { useEffect, useState } from 'react';
-import { ListGroup } from 'react-bootstrap';
+import { Alert, Badge, Button, ListGroup } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 import { useAppContext } from '../lib/contextLib';
 import { onError } from '../lib/errorLib';
-import { ArrowUpTrayIcon } from '@heroicons/react/24/outline';
+import { ArrowUpTrayIcon, TrashIcon } from '@heroicons/react/24/outline';
 import './Favourites.css';
+import Pagination from '../components/Pagination';
+import { useNavigate } from 'react-router-dom';
 
 export const Favourites = () => {
   const [favourites, setFavourites] = useState([]);
   const { isAuthenticated } = useAppContext();
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [deletedTrack, setDeletedTrack] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     async function onLoad() {
@@ -29,34 +35,65 @@ export const Favourites = () => {
     }
 
     onLoad();
-  }, [isAuthenticated]);
+  }, [isAuthenticated, deletedTrack]);
+
+  useEffect(() => {
+    if (deletedTrack) {
+      setTimeout(() => setDeletedTrack(null), 3000);
+    }
+  }, [deletedTrack]);
 
   function loadFavourites() {
     return API.get('favourites', '/favourites', {});
   }
 
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
+
+  const handleDelete = ({ artist, trackTitle, favId }) => {
+    API.del('favourites', `/favourites/${favId}`);
+    setDeletedTrack({ artist, trackTitle });
+  };
+
   function renderFavouritesList(favourites) {
     return (
       <>
-        <LinkContainer to="/favouritess/new">
+        <LinkContainer to="/favourites/new">
           <ListGroup.Item action className="py-3 text-nowrap text-truncate">
             <ArrowUpTrayIcon width={17} />
             <span className="upload-text">Upload a track</span>
           </ListGroup.Item>
         </LinkContainer>
-        {favourites.map(({ favouriteId, content, createdAt }) => (
-          <LinkContainer key={favouriteId} to={`/favourites/${favouriteId}`}>
-            <ListGroup.Item action>
-              <span className="font-weight-bold">
-                {content.trim().split('\n')[0]}
-              </span>
-              <br />
-              <span className="text-muted">
-                Created: {new Date(createdAt).toLocaleString()}
-              </span>
+        {favourites
+          .slice((currentPage - 1) * 10, currentPage * 10)
+          .map(({ artist, trackTitle, attachment, favId }) => (
+            <ListGroup.Item
+              action
+              href={attachment}
+              target="_blank"
+              key={trackTitle}
+              className="favourite-list-item"
+            >
+              {trackTitle}
+              <div className="secondary-list-item">
+                <Badge bg="secondary" className="mr-3">
+                  Artist: {artist}
+                </Badge>
+                <Button
+                  className="list-button"
+                  variant="light"
+                  size="sm"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleDelete({ artist, trackTitle, favId });
+                  }}
+                >
+                  <TrashIcon width={24} height={24} color="blue" />
+                </Button>
+              </div>
             </ListGroup.Item>
-          </LinkContainer>
-        ))}
+          ))}
       </>
     );
   }
@@ -64,7 +101,28 @@ export const Favourites = () => {
   return (
     <div>
       <h2 className="pb-3 mt-4 mb-3 border-bottom">Your Favourites</h2>
-      <ListGroup>{!isLoading && renderFavouritesList(favourites)}</ListGroup>
+      {favourites ? (
+        <>
+          <ListGroup>
+            {!isLoading && renderFavouritesList(favourites)}
+          </ListGroup>
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={handlePageChange}
+          />
+          {deletedTrack && (
+            <Alert
+              className="mt-3"
+              variant="primary"
+            >{`${deletedTrack.trackTitle} by ${deletedTrack.artist} has been deleted from your favourites!`}</Alert>
+          )}
+        </>
+      ) : (
+        <div className="NotFound text-center">
+          <h3>You don't have any favourites yet!</h3>
+        </div>
+      )}
     </div>
   );
 };

@@ -6,19 +6,45 @@ import dynamoDb from '../util/dynamodb';
 
 export const main = handler(async (event) => {
   const data = JSON.parse(event.body);
-  const params = {
+  const putParams = {
     TableName: process.env.TABLE_NAME,
     Item: {
       // The attributes of the item to be created
       userId: event.requestContext.authorizer.iam.cognitoIdentity.identityId, // The id of the author
-      noteId: uuid.v1(), // A unique uuid
-      content: data.content, // Parsed from request body
+      favId: uuid.v1(), // A unique uuid
+      artist: data.artist, // Parsed from request body
+      trackTitle: data.trackTitle, // Parsed from request body
       attachment: data.attachment, // Parsed from request body
       createdAt: Date.now(), // Current Unix timestamp
     },
   };
 
-  await dynamoDb.put(params);
+  // Checking if item already exists
+  let itemAlreadyExists;
+  const getParams = {
+    TableName: process.env.TABLE_NAME,
+    // 'KeyConditionExpression' defines the condition for the query
+    // - 'userId = :userId': only return items with matching 'userId'
+    //   partition key
+    KeyConditionExpression: 'userId = :userId',
+    // 'ExpressionAttributeValues' defines the value in the condition
+    // - ':userId': defines 'userId' to be the id of the author
+    ExpressionAttributeValues: {
+      ':userId': event.requestContext.authorizer.iam.cognitoIdentity.identityId,
+    },
+  };
+  const result = await dynamoDb.query(getParams);
+  const currentFavourites = result.Items;
+  if (currentFavourites) {
+    itemAlreadyExists = currentFavourites.find(
+      (fav) => fav.artist === data.artist && fav.trackTitle === data.trackTitle
+    );
+  }
+  console.log(result.Items);
+  if (!itemAlreadyExists) {
+    // only add if it doesn't exist - avoid duplicates
+    await dynamoDb.put(putParams);
+  }
 
-  return params.Item;
+  return putParams.Item;
 });

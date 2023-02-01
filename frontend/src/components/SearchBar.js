@@ -12,14 +12,14 @@ export const SearchBar = () => {
   };
 
   return (
-    <div class="container">
-      <div class="row height d-flex justify-content-center align-items-center">
-        <div class="col-md-8">
-          <div class="search">
-            <i class="fa fa-search"></i>
+    <div className="container">
+      <div className="row height d-flex justify-content-center align-items-center">
+        <div className="col-md-8">
+          <div className="search">
+            <i className="fa fa-search"></i>
             <input
               type="text"
-              class="form-control"
+              className="form-control"
               placeholder="Type the country name"
               onChange={handleChange}
               onKeyDown={(e) => {
@@ -32,7 +32,7 @@ export const SearchBar = () => {
               onClick={() =>
                 navigate(`/artists/${searchInput.trim().toLowerCase()}`)
               }
-              class="btn btn-primary mt"
+              className="btn btn-primary mt"
             >
               Search
             </button>

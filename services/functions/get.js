@@ -5,12 +5,17 @@ import dynamoDb from '../util/dynamodb';
 
 // Wrong handler function name
 export const main = handler(async (event) => {
+  const data = JSON.parse(event.queryStringParameters);
   const params = {
     TableName: process.env.TABLE_NAME,
     // 'Key' defines the partition key and sort key of the item to be retrieved
     Key: {
-      userId: event.requestContext.authorizer.iam.cognitoIdentity.identityId, // The id of the author
-      noteId: event.pathParameters.id, // The id of the note from the path
+      userId: event.requestContext.authorizer.iam.cognitoIdentity.identityId, // The id of
+    },
+    KeyConditionExpression: 'artist = :artist AND trackTitle = :trackTitle',
+    ExpressionAttributeValues: {
+      ':artist': data.artist || null,
+      ':tracktitle': data.trackTitle || null,
     },
   };
 
