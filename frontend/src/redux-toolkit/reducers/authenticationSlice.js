@@ -7,23 +7,6 @@ const initialState = {
   isAuthenticating: true,
 };
 
-// Thunk middleware
-export const loadSession = createAsyncThunk(
-  'authentication/loadSession',
-  async (_, { dispatch }) => {
-    try {
-      await Auth.currentSession();
-      dispatch(setIsAuthenticated(true));
-    } catch (e) {
-      if (e !== 'No current user') {
-        onError(e);
-      }
-    }
-
-    dispatch(setIsAuthenticating(false));
-  }
-);
-
 export const authenticationSlice = createSlice({
   name: 'authentication',
   initialState,

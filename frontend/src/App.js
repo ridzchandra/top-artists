@@ -14,6 +14,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import {
   loadSession,
   setIsAuthenticated,
+  setIsAuthenticating,
 } from './redux-toolkit/reducers/authenticationSlice';
 
 function App() {
@@ -26,8 +27,21 @@ function App() {
     (state) => state.authentication.isAuthenticating
   );
 
+  const onLoad = async () => {
+    try {
+      await Auth.currentSession();
+      dispatch(setIsAuthenticated(true));
+    } catch (e) {
+      if (e !== 'No current user') {
+        onError(e);
+      }
+    }
+
+    dispatch(setIsAuthenticating(false));
+  };
+
   useEffect(() => {
-    dispatch(loadSession);
+    onLoad();
   }, []);
 
   async function handleLogout() {
