@@ -2,9 +2,9 @@ import * as Sentry from '@sentry/react';
 import { BrowserTracing } from '@sentry/tracing';
 import config from '../config';
 
-// const isLocal = process.env.NODE_ENV === 'development';
+const isLocal = process.env.NODE_ENV === 'development';
 // Use the line below instead of the above line if you want to report errors to sentry while running app on localhost as well
-const isLocal = false;
+// const isLocal = false;
 
 export function initSentry() {
   if (isLocal) {
