@@ -19,5 +19,6 @@ export const main = handler(async (event) => {
     currency: 'aud',
   });
 
-  return { status: true, amount };
+  // Converting cents to dollars to display on frontend
+  return { status: true, amount: amount / 100 };
 });
